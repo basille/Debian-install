@@ -85,14 +85,7 @@ Clés et dépôts (R et QGIS) :
 # R
 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
 gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | sudo tee /etc/apt/trusted.gpg.d/cran_debian_key.asc
-sudo tee -a /etc/apt/sources.list.d/r.sources <<EOF
-Types: deb deb-src
-URIs: deb http://cloud.r-project.org/bin/linux/debian
-Suites: bookworm-cran40
-Architectures: amd64
-Components: main
-Signed-By: /etc/apt/trusted.gpg.d/cran_debian_key.asc
-EOF
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/cran_debian_key.asc] https://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo tee -a /etc/apt/sources.list.d/r.list
 # QGIS
 sudo curl -O -output-dir /etc/apt/keyrings/ https://download.qgis.org/downloads/qgis-archive-keyring.gpg
 sudo tee -a /etc/apt/sources.list.d/qgis.sources <<EOF
