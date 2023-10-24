@@ -83,14 +83,19 @@ Clés et dépôts (R et QGIS) :
 
 #+begin_src sh
 # R
-gpg --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
 gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | sudo tee /etc/apt/trusted.gpg.d/cran_debian_key.asc
-echo "deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo
-tee /etc/apt/sources.list.d/r.list
+echo "deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo tee /etc/apt/sources.list.d/r.list
 # QGIS
-sudo wget -P /etc/apt/keyrings/ https://download.qgis.org/downloads/qgis-archive-keyring.gpg
-echo "Types: deb deb-src\nURIs: https://qgis.org/debian\nSuites: bookworm\nArchitectures: amd64\nComponents: main\nSigned-By: /etc/apt/keyrings/qgis-archive-keyring.gpg"  | sudo
-tee /etc/apt/sources.list.d/qgis.sources
+sudo curl -O -output-dir /etc/apt/keyrings/ https://download.qgis.org/downloads/qgis-archive-keyring.gpg
+sudo tee -a /etc/apt/sources.list.d/qgis.sources <<EOF
+Types: deb deb-src
+URIs: https://qgis.org/debian
+Suites: bookworm
+Architectures: amd64
+Components: main
+Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg"
+EOF
 #+end_src
 
 À cette étape, on installe tous les paquets nécessaires pour obtenir le système
