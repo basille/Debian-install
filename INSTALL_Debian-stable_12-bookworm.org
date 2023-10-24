@@ -44,8 +44,6 @@ correspondantes.
     - [[#r-rstudio--qgis][R, RStudio & QGIS]]
     - [[#latex--pdf][LaTeX & PDF]]
   - [[#multimédia][Multimédia]]
-    - [[#images][Images]]
-    - [[#loisirs][Loisirs]]
 - [[#opérations-systèmes][Opérations systèmes]]
   - [[#mettre-à-jour-debian][Mettre à jour Debian]]
   - [[#enlever-les-anciens-noyaux][Enlever les anciens noyaux]]
@@ -974,21 +972,21 @@ Et on y ajoute :
 
 ** Multimédia
 
-
-*** Images
-*ImageMagick* ([[https://askubuntu.com/questions/1181762/imagemagickconvert-im6-q16-no-images-defined][sécurité PDF]]) :
+- *ImageMagick* ([[https://askubuntu.com/questions/1181762/imagemagickconvert-im6-q16-no-images-defined][sécurité PDF]]) :
 #+begin_src sh
   sudo sed -i_bak \
        's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' \
        /etc/ImageMagick-6/policy.xml
 #+end_src
 
+- Lecture de DVDs :
+#+begin_src sh
+  sudo dpkg-reconfigure libdvd-pkg
+#+end_src
 
-*** Loisirs
-
-Chromium BSU est un bon gros /shoot'em up/ qui défoule bien ; DOSBox un
-émulateur DOS pour jouer aux [[https://abandonware-france.org/][abandonwares]] ; Marble est un globe terrestre à la
-Google Earth ; Stellarium est un planétarium.
+- *Chromium BSU* est un bon gros /shoot'em up/ qui défoule bien ; *DOSBox* un
+  émulateur DOS pour jouer aux [[https://abandonware-france.org/][abandonwares]] ; *Marble* est un globe terrestre à
+  la Google Earth ; *Stellarium* est un planétarium.
 
 
 ***************************************************
