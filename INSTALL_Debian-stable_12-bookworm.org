@@ -79,22 +79,30 @@ l'installation.
 
 ** Installer le système complet
 
-Dépôts Debian :
+Il faut tout d'abord mettre à jour la liste des dépôts Debian pour y inclure
+notamment les firmware propriétaires (=non-free-firmware=) et les paquets
+propriétaires (=non-free=) ou liés à des paquets propriétaires (=contrib=) :
 
 #+begin_src sh
-sudo tee -a /etc/apt/sources.list <<EOF
-deb http://deb.debian.org/debian bookworm contrib main non-free-firmware
-# Bookworm updates, to get udpates before a poitn release is made:
-deb http://deb.debian.org/debian bookworm-updates contrib main non-free-firmware
-# Bookworm backports
-deb http://deb.debian.org/debian bookworm-backports contrib main
-non-free-firmware
-# Bookworm security
-deb http://security.debian.org/debian-security bookworm-security contrib main non-free-firmware
+sudo tee /etc/apt/sources.list <<EOF
+### Dépôts officiels Debian pour Bookworm
+
+# Dépôt principal
+deb http://deb.debian.org/debian bookworm main contrib non-free-firmware  non-free
+
+# Dépôt des correctifs de sécurité
+deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware  non-free
+
+# Dépôt de mises-à-jour au fil de l'eau (avant la prochaine version intermédiaire)
+deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware  non-free
+
+# Dépôt de rétroportages
+deb http://deb.debian.org/debian bookworm-backports main contrib non-free-firmware  non-free
 EOF
 #+end_src
 
-Dépôts additionnels et clés (R et QGIS) :
+On configure les dépôts additionnels, ainsi que leurs clés d'authentification (R
+et QGIS) :
 
 #+begin_src sh
 # R
