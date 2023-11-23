@@ -832,7 +832,12 @@ les packages soient installés.
 *** LibreOffice
 
 On choisit le style d'icônes =Sifr= dans les options (Outils > Options >
-LibreOffice > Affichage).
+LibreOffice > Affichage) et on bloque LibreOffice en mode clair (les icônes Sifr
+ne gèrent pas le changement).
+
+Pour pouvoir exporter proprement en PDF des diapos avec animation
+d'apparition/disparition, on installe l'extension [[https://github.com/monperrus/ExpandAnimations/releases][ExpandAnimations]], en
+double-cliquant sur le fichier =.oxt=.
 
 
 *** QOwnNotes
