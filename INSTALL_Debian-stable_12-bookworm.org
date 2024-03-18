@@ -28,7 +28,7 @@ correspondantes.
 - [[#configurer-le-bureau][Configurer le bureau]]
   - [[#clavier-et-internationalisation][Clavier et internationalisation]]
   - [[#réglagles-spécifiques-du-bureau][Réglagles spécifiques du bureau]]
-  - [[#extensions-gnome][Extensions Gnome]]
+  - [[#extensions-gnome][Extensions GNOME]]
 - [[#logiciels-spécifiques][Logiciels spécifiques]]
   - [[#web][Web]]
     - [[#thunderbird][Thunderbird]]
@@ -268,7 +268,7 @@ Nautilus.
   * Configuration : Préférences > Profil > Par défaut :
     * Général : « Bip » du terminal : Icône
     * Couleur : Palette prédéfinies : Nord, et ajouter un peu de transparence (un cran vers la droite)
-  * Raccourcis clavier : dans les Paramètres Gnome > Clavier > Raccourcis clavier, ajouter
+  * Raccourcis clavier : dans les Paramètres GNOME > Clavier > Raccourcis clavier, ajouter
     deux raccourcis personnalisés (en bas de la liste) :
     * Tilix / =tilix= / ~Super+T~
     * Tilix (Quake mode) / =env GDK_BACKEND=x11 tilix --quake= / ~²~ (au dessus de ~Tab~) ; attention, c'est un hack qui nécessite que Tilix ne soit pas déjà lancé en mode Wayland (mais les deux peuvent coexister). Pour quelque chose de plus propre, voir du côté de =[[https://github.com/gnunn1/tilix/issues/1314#issuecomment-1140504915][ddterm]]=
@@ -433,23 +433,25 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
       sudo mv /usr/share/X11/xkb/symbols/fr /usr/share/X11/xkb/symbols/fr.bkp
       sudo cp Keyboard/keyboard-DELL-Precision-3581_fr /usr/share/X11/xkb/symbols/fr
     #+end_src
-  * Puis dans les Paramètres Gnome > Pays et langue, choisir « Français
+  * Puis dans les Paramètres GNOME > Pays et langue, choisir « Français
     (variante) » comme Source de saisie ; ajouter « Grec (étendu) » pour
     l'alphabet grec. Pour changer de clavier à la volée : =Windows+Espace=.
 
 
 ** Réglagles spécifiques du bureau
 
-- Vérifier les applications favorites : Fichiers, Firefox, Thunderbird, Zoom, Emacs, Libre Office, Moniteur système
+- Vérifier les applications favorites : Fichiers, Firefox, Thunderbird, Zoom,
+  Emacs, Libre Office, Moniteur système
 - Vérifier les applications par défaut (Paramètres > Applications par défaut),
   notamment Firefox, Thunderbird, VLC.
 - Vérifier les applications au démarrage avec =Ajustements= (Applications au
-  démarrage), notamment Firefox, Thunderbird, Zoom, QOwnNotes, NextCloud et Fichiers.
+  démarrage), notamment Firefox, Thunderbird, Zoom, Emacs, NextCloud et
+  Fichiers.
 - Souris et pavé tactile : Activer =Taper pour cliquer= :
   #+begin_src sh
     gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
   #+end_src
-- Enlever le « bip » système : Paramètres Gnome > Son, mettre les Sons système
+- Enlever le « bip » système : Paramètres GNOME > Son, mettre les Sons système
   en silence.
 - Raccourcis clavier :
   - Désactiver « Masquer la fenêtre » :
@@ -475,10 +477,6 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
   #+begin_src sh
     gsettings set org.gnome.desktop.calendar show-weekdate true
   #+end_src
-- Disable the sleep button (mapped to Fn+Insert) :
-  #+begin_src sh
-    gsettings set org.gnome.settings-daemon.plugins.power power-button-action "'nothing'"
-  #+end_src
 - Mode nuit : activé au lever/coucher du soleil ; couleur à niveau 1 (échelle
   0–3) ; note : contrôle également le passage au thème sombre si Night theme
   switcher est également installé /!\ On active au passage les services de
@@ -491,13 +489,13 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
   #+end_src
   
 
-** Extensions Gnome
+** Extensions GNOME
 
-On utilise le Gnome Extension Manager (=gnome-shell-extension-manager=) pour
-installer et gérer des extensions Gnome Shell :
+On utilise le gestionnaire d'extensions de GNOME
+(=gnome-shell-extension-manager=) pour installer et gérer des extensions GNOME
+Shell :
 
 - [[https://extensions.gnome.org/extension/16/auto-move-windows/][Auto Move Windows]] [intégrée] : Firefox sur (2), Fichiers sur (3)
-- [[https://extensions.gnome.org/extension/904/disconnect-wifi/][Disconnect Wifi]] (plus disponible pour GNOME 43)
 - [[https://extensions.gnome.org/extension/28/gtile/][gTile]] : Changer la taille de grille à 4x2,3x2,4x3
 - [[https://github.com/ihpled/mute-unmute][Mute/Unmute]]
 - [[https://extensions.gnome.org/extension/2236/night-theme-switcher/][Night theme switcher]] : Passe automatiquement du thème clair au thème sombre
@@ -511,9 +509,9 @@ installer et gérer des extensions Gnome Shell :
   Agencement : mettre au centre, avec un décalage de 1 (pour l'avoir à droite de
   l'heure) ; Emplacements : ajouter « Pignan ».
 - [[https://extensions.gnome.org/extension/1133/supertab-launcher/][Super+Tab Launcher]] : L'extension n'est plus mise à jour mais fonctionne encore
-  sous Gnome 40. Pour cela, éditer le fichier
+  sous GNOME 43 (à partir de GNOME 45, voir [[https://extensions.gnome.org/extension/6361/alttab-launcher/][ce fork]]). Pour cela, éditer le fichier
   =~/.local/share/gnome-shell/extensions/gnome-shell-extension-super-tab-launcher.dsboger@gmail.com/metadata.json=,
-  et rajouter "43" dans la liste des "shell-version". Réouvrir la session. (à terme, devrait être remplacée par [[https://github.com/oxayotl/gnome-shell-extension-alt-tab-launcher][GNOME Shell Extension: Alt+Tab Launcher]])
+  et rajouter "43" dans la liste des "shell-version". Réouvrir la session.
 - Ubuntu AppIndicator [intégrée] : Utiliser une taille d'icone de 20.
 
 
@@ -525,48 +523,45 @@ installer et gérer des extensions Gnome Shell :
 
 Nettoyage des locales :
 
-sudo apt purge thunderbird-l10n-* && sudo apt install thunderbird-l10n-en-gb thunderbird-l10n-fr
+  #+begin_src sh
+    sudo apt purge thunderbird-l10n-* && sudo apt install thunderbird-l10n-en-gb thunderbird-l10n-fr
+  #+end_src
 
 Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
 
 
 **** Configuration
 
-- Enlever la barre de titre : Clic droit sur la Barre d'outils > Personnaliser,
-  puis décocher « Barre de titre ». Afficher « Icônes », ajouter un espace
-  flexible après la boîte de recherche, enlever les boutons Messagerie
-  instantanée, Adresses et Etiquettes, déplacer le bouton de Filtre à droite de
-  l'espace flexible, ajouter les boutons « Reculer » et « Avancer » dans la
-  barre d'outils et Modules complémentaires en haut à droite.
-- Discussion avec suivi, triées par date (plus récentes en dernier) pour tous
-  les dossiers : Préférences > Général > Éditeur de configuration :
+- Enlever la barre de titre : Paramètres > Général > Langue et apparence >
+  Disposition des fenêtres > cocher « Masquer la barre de titre de la
+  fenêtre ».
+- Barres d'outils mail : Clic droit sur la barre d'outils > Personnaliser :
+  enlever les boutons Messagerie instantanée, Adresses et Étiquettes, ajouter
+  les boutons « Reculer » et « Avancer » tout à gauche, ajouter un espace
+  flexible après la boîte de recherche, ajouter « Modules complémentaires » tout
+  à droite.
+- Vue des e-mails : bouton menu/affichage en haut de la liste des e-mails : Vue
+  en fiches, Trier par date, Ordre décroissant, Discussions groupées. Il ne
+  semble plus être possible de l'appliquer à tous. Vérifier tout de même :
+  Paramètres > Général > Éditeur de configuration :
   #+begin_quote
 : mailnews.default_sort_order: 1
 : mailnews.default_sort_type: 22
-: mailnews.thread_pane_column_unthreads: false
   #+end_quote
 - Limiter la largeur des messages textes à 80 caractères : Préférences > Général
   > Éditeur de configuration :
   #+begin_quote
 : mailnews.wraplength: 80
   #+end_quote
-- Dans le panneau des e-mails, enlever Discussion et Lu des colonnes
-  affichées. Appliquer ces réglages à tous les dossiers et sous-dossiers de tous
-  les comptes.
-- Dans Préférences > Vie privée et sécurité, Autoriser le contenu distant dans
-  les messages (Allow HTTP Temp s'occupe de bloquer l'HTML).
-- Pas de délai dans la popup des pièces jointes : Préférences > Général >
+- Dans Paramètres > Vie privée et sécurité, Autoriser le contenu distant dans
+  les messages (l'extension Allow HTTP Temp s'occupe de bloquer l'HTML).
+- Pas de délai dans la popup des pièces jointes : Paramètres > Général >
   Éditeur de configuration :
   #+begin_quote
 : security.dialog_enable_delay: 0
   #+end_quote
-- Dans le calendrier, ajouter un séparateur et le bouton Recherche dans la barre
-  d'outils.
-- Un bug empêche de redimensionner les panneaux sous Wayland. Pour cela, ouvrir
-  une fonction Xorg.
 - Pour afficher les quotas IMAP tout le temps (par défaut, uniquement si
-  > 75 %) : Préférences > Général >
-  Éditeur de configuration :
+  > 75 %) : Paramètres > Général > Éditeur de configuration :
   #+begin_quote
 : mail.quota.mainwindow_threshold.show: 0
   #+end_quote
@@ -577,7 +572,7 @@ Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
 Télécharger le thème :
 
 #+begin_src sh
-  cd Ubuntu/Thunderbird
+  cd Debian/Thunderbird
   git clone https://github.com/rafaelmardojai/thunderbird-gnome-theme && cd thunderbird-gnome-theme
   ./scripts/auto-install.sh
 #+end_src
@@ -604,44 +599,50 @@ Pour les mises-à-jour, on va dans le dossier de profile Thunderbird
 **** Calendrier
 
 La gestion des calendriers se fait naturellement via Lightning (installé par
-défaut dans Thunderbird). Pour envoyer des invitations à des événements :
+défaut dans Thunderbird).
 
-- Associer le calendrier à l'adresse e-mail pertinente
-- Cocher : « Choisir la planification des courriels côté client »
+- Barre d'outils calendrier : Clic droit sur la barre d'outils > Personnaliser :
+  on garde Synchroniser et Ajouter un événement tout à gauche, ajouter un espace
+  flexible puis le bouton Recherche.
 
-Lorsqu'un événement est créé, inviter des participants se fait via le bouton
-dédié (on peut ajouter des e-mails qui sont dans les contacts ou non). À
-l'enregistrement de l'événement, une invitation est envoyée par e-mail (du type
-à accepter/décliner) ; les réponses sont également traitées comme des e-mails.
+- Pour envoyer des invitations à des événements :
+  - Associer le calendrier à l'adresse e-mail pertinente
+  - Cocher : « Choisir la planification des courriels côté client »
+  - Lorsqu'un événement est créé, inviter des participants se fait via le bouton
+    dédié (on peut ajouter des e-mails qui sont dans les contacts ou non). À
+    l'enregistrement de l'événement, une invitation est envoyée par e-mail (du
+    type à accepter/décliner) ; les réponses sont également traitées comme des
+    e-mails. 
 
 
 **** Extensions
 
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/filelink-nextcloud-owncloud/][*cloud - FileLink for Nextcloud and ownCloud]] : configurer le serveur
-  NextCloud dans les Préférences > Rédaction > Pièces jointes
+  NextCloud dans les Paramètres > Rédaction > Pièces jointes
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/allow-html-temp/][Allow HTML Temp]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/birthday-calendar/][Birthday Calendar]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/cardbook/][CardBook]] : configurer le carnet d'adresse CardDav
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/display-mail-user-agent-t/][Display Mail User Agent T]] (désactivé)
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/display-mail-user-agent-t/][Display Mail User Agent T]] 
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/emojiaddin/][Emoji]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/provider-for-google-calendar/][Fournisseur pour Google Agenda]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/lookout-fix-version/][LookOut (fix version)]]
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/manually-sort-folders/][Manually sort folders]] [Trier manuellement les dossiers] (désactivé)
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/msghdr-toolbar-customize/][Message Header Toolbar Customize]] : dans la barre d'outils, « Customize
-  Calendar buttons », et enlever les tâches.
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/nestedquote-remover/][NestedQuote Remover]]
-- Quick Folder Move
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/quick-folder-move/][Quick Folder Move]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/quotecolors/][Quote Colors & Collapse]]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/removedupes/][Remove Duplicate Messages]] [Supprimer les messages en double (Alternatif)]
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/send-later-3/][Envoyer Plus Tard]] (désactivé)
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/show-inout/][Show InOut]] (désactivé) : réglage des [[https://www.ggbs.de/extensions/ShowInOut_Styles.html][styles]] : 
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/signature-switch/][Signature Switch]]
+
+- Compact Headers [désactivé]
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/send-later-3/][Envoyer Plus Tard]] [désactivé]
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/msghdr-toolbar-customize/][Message Header Toolbar Customize]] [désactivé]: dans la barre d'outils, « Customize
+- [[https://addons.thunderbird.net/fr/thunderbird/addon/show-inout/][Show InOut]] [désactivé et plus mis à jour] : réglage des [[https://www.ggbs.de/extensions/ShowInOut_Styles.html][styles]] : 
   #+begin_quote
 : toolkit.legacyUserProfileCustomizations.stylesheets: true
   #+end_quote
   Cocher « Sujet » dans les colonnes sélectionnées, ajouter le dossier =chrome=
   avec les PNGs et le fichier =showInOut.css= dans le dossier d'utilisateur
   Thunderbird (=.thunderbird/***.default-release=). Redémarrer Thunderbird.
-- [[https://addons.thunderbird.net/fr/thunderbird/addon/signature-switch/][Signature Switch]]
+  Calendar buttons », et enlever les tâches.
 
 
 *** Firefox
@@ -674,8 +675,11 @@ Puis le configurer dans =about:config= :
 : ui.useOverlayScrollbars: true
 #+end_quote
 
-Redémarrer Firefox. Pour coller au visuel Gnome global, on ajoute le bouton de
-nouvel onglet à gauche et celui du panneau latéral à droite ainsi que celui des extensions, puis on enlève le bouton d'accueil Firefox à gauche des onglets. On rajoutera ensuite les extensions liées aux sites visités directement à droite de la barre d'adresse (par exemple Pocket ou Bitwarden).
+Redémarrer Firefox. Pour coller au visuel GNOME global, on ajoute le bouton de
+nouvel onglet à gauche et celui du panneau latéral à droite ainsi que celui des
+extensions, puis on enlève le bouton d'accueil Firefox à gauche des onglets. On
+rajoutera ensuite les extensions liées aux sites visités directement à droite de
+la barre d'adresse (par exemple Pocket ou Bitwarden).
 
 Pour les mises-à-jour, on va dans le dossier de profile Firefox
 (=~/snap/firefox/common/.mozilla/firefox/XXX.default=), sous-dossier
