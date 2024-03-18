@@ -41,14 +41,12 @@ correspondantes.
     - [[#polices][Polices]]
     - [[#emacs][Emacs]]
     - [[#libreoffice][LibreOffice]]
-    - [[#qownnotes][QOwnNotes]]
     - [[#r-rstudio--qgis][R, RStudio & QGIS]]
     - [[#latex--pdf][LaTeX & PDF]]
   - [[#multimédia][Multimédia]]
 - [[#opérations-systèmes][Opérations systèmes]]
   - [[#mettre-à-jour-debian][Mettre à jour Debian]]
   - [[#enlever-les-anciens-noyaux][Enlever les anciens noyaux]]
-  - [[#récupération-système-avec-tails][Récupération système avec Tails]]
 
 * Installer Debian
 
@@ -167,27 +165,27 @@ On crée une paire de clés publiques/privées SSH (pour accès distant SSH,
 dont GitHub) :
 
 #+begin_src sh
-  ssh-keygen -t ed25519 -C "<email>"
+ssh-keygen -t ed25519 -C "<email>"
 #+end_src
 
 Laisser l'emplacement par défaut puis une phrase de passe vide. On enregistre
 cette clé dans l'agent SSH qui s'occupe de gérer les identités :
 
 #+begin_src sh
-  ssh-add ~/.ssh/id_ed25519 
+ssh-add ~/.ssh/id_ed25519 
 #+end_src
 
 Pour GitHub, on copie la nouvelle clé publique dans [[https://github.com/settings/keys][la configuration du compte]],
 clé que l'on peut afficher ainsi (copier la ligne complète) :
 
 #+begin_src sh
-  cat ~/.ssh/id_ed25519.pub
+cat ~/.ssh/id_ed25519.pub
 #+end_src
 
 Tester la connection à GitHub :
 
 #+begin_src sh
-  ssh -T git@github.com
+ssh -T git@github.com
 #+end_src
 
 Ne pas répondre immédiatement ; comparer la clé affichée avec celles disponibles
@@ -199,7 +197,7 @@ Pour finir, on copie le fichier =.gitconfig= (du dossier Git) dans le dossier
 utilisateur :
 
 #+begin_src sh
-  cp Git/.gitconfig ~/
+cp Git/.gitconfig ~/
 #+end_src
 
 
@@ -209,62 +207,62 @@ utilisateur :
 Nautilus.
 
 - Configuration du Bash :
-  #+begin_src sh
-    sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
-    nano ~/.bashrc
-  #+end_src
+#+begin_src sh
+sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+nano ~/.bashrc
+#+end_src
   - *Autocompletion :* vérifier que ces lignes sont décommentées :
-  #+begin_quote
-  : if ! shopt -oq posix; then
-  :   if [ -f /usr/share/bash-completion/bash_completion ]; then
-  :     . /usr/share/bash-completion/bash_completion
-  :   elif [ -f /etc/bash_completion ]; then
-  :     . /etc/bash_completion
-  :   fi
-  : fi
-  #+end_quote
+#+begin_quote
+: if ! shopt -oq posix; then
+:   if [ -f /usr/share/bash-completion/bash_completion ]; then
+:     . /usr/share/bash-completion/bash_completion
+:   elif [ -f /etc/bash_completion ]; then
+:     . /etc/bash_completion
+:   fi
+: fi
+#+end_quote
   - *Autres :* ajouter ces lignes à la fin du fichier :
-  #+begin_quote
-  : # Manpages with colors
-  : export MANPAGER="/usr/bin/most -s"
-  : 
-  : # For Tilix and Powerline
-  : # https://gnunn1.github.io/tilix-web/manual/vteconfig/
-  : if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  :         source /etc/profile.d/vte.sh
-  : fi
-  : if [ -f `which powerline-daemon` ]; then
-  :         powerline-daemon -q
-  :         POWERLINE_BASH_CONTINUATION=1
-  :         POWERLINE_BASH_SELECT=1
-  :         . /usr/share/powerline/bindings/bash/powerline.sh
-  : fi
-  : 
-  : # Alias ls to have colors and directories before files 
-  : alias ls='ls --color=auto --group-directories-first'
-  : 
-  : # Alias upgrade & upgrade-full
-  : alias upgrade='sudo apt update && sudo apt upgrade'
-  : alias upgrade-full='sudo apt update && sudo apt full-upgrade && sudo apt clean && sudo apt autoclean && sudo apt autoremove'
-  #+end_quote
+#+begin_quote
+: # Manpages with colors
+: export MANPAGER="/usr/bin/most -s"
+: 
+: # For Tilix and Powerline
+: # https://gnunn1.github.io/tilix-web/manual/vteconfig/
+: if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+:         source /etc/profile.d/vte.sh
+: fi
+: if [ -f `which powerline-daemon` ]; then
+:         powerline-daemon -q
+:         POWERLINE_BASH_CONTINUATION=1
+:         POWERLINE_BASH_SELECT=1
+:         . /usr/share/powerline/bindings/bash/powerline.sh
+: fi
+: 
+: # Alias ls to have colors and directories before files 
+: alias ls='ls --color=auto --group-directories-first'
+: 
+: # Alias upgrade & upgrade-full
+: alias upgrade='sudo apt update && sudo apt upgrade'
+: alias upgrade-full='sudo apt update && sudo apt full-upgrade && sudo apt clean && sudo apt autoclean && sudo apt autoremove'
+#+end_quote
 - Configuration de Tilix (en particulier pour copier automatiquement le texte
   sélectionné dans le presse-papier ; thème sombre ; pas de barre de titre pour
   le mode Quake ; ~Ctrl+Shift+D~ pour ouvrir un terminal dessous ;
   ~Ctrl+Shift+R~ pour ouvrir un terminal à droite) :
-  #+begin_src sh
-    gsettings set com.gexperts.Tilix.Settings unsafe-paste-alert false
-    gsettings set com.gexperts.Tilix.Settings copy-on-select true
-    gsettings set com.gexperts.Tilix.Settings terminal-title-style 'none'
-    gsettings set com.gexperts.Tilix.Settings theme-variant 'dark'
-    gsettings set com.gexperts.Tilix.Settings quake-hide-headerbar true
-    gsettings set com.gexperts.Tilix.Keybindings session-add-down '<Primary><Shift>d'
-    gsettings set com.gexperts.Tilix.Keybindings session-add-right '<Primary><Shift>r'
-  #+end_src
+#+begin_src sh
+gsettings set com.gexperts.Tilix.Settings unsafe-paste-alert false
+gsettings set com.gexperts.Tilix.Settings copy-on-select true
+gsettings set com.gexperts.Tilix.Settings terminal-title-style 'none'
+gsettings set com.gexperts.Tilix.Settings theme-variant 'dark'
+gsettings set com.gexperts.Tilix.Settings quake-hide-headerbar true
+gsettings set com.gexperts.Tilix.Keybindings session-add-down '<Primary><Shift>d'
+gsettings set com.gexperts.Tilix.Keybindings session-add-right '<Primary><Shift>r'
+#+end_src
   * Installer le thème Nord :
-  #+begin_src sh
-    git clone git@github.com:nordtheme/tilix.git Tilix/Nord
-    cd Tilix/Nord/ && ./install.sh
-  #+end_src
+#+begin_src sh
+git clone git@github.com:nordtheme/tilix.git Tilix/Nord
+cd Tilix/Nord/ && ./install.sh
+#+end_src
   * Configuration : Préférences > Profil > Par défaut :
     * Général : « Bip » du terminal : Icône
     * Couleur : Palette prédéfinies : Nord, et ajouter un peu de transparence (un cran vers la droite)
@@ -273,13 +271,13 @@ Nautilus.
     * Tilix / =tilix= / ~Super+T~
     * Tilix (Quake mode) / =env GDK_BACKEND=x11 tilix --quake= / ~²~ (au dessus de ~Tab~) ; attention, c'est un hack qui nécessite que Tilix ne soit pas déjà lancé en mode Wayland (mais les deux peuvent coexister). Pour quelque chose de plus propre, voir du côté de =[[https://github.com/gnunn1/tilix/issues/1314#issuecomment-1140504915][ddterm]]=
 - Renvoyer des insultes quand on se trompe de mot de passe :
-  #+begin_src sh
-    sudo visudo
-  #+end_src
+#+begin_src sh
+sudo visudo
+#+end_src
   Ajouter cette ligne au début du fichier :
-  #+begin_quote
-  : Defaults        insults
-  #+end_quote
+#+begin_quote
+: Defaults        insults
+#+end_quote
 
 
 ** BIOS Dell
@@ -287,22 +285,22 @@ Nautilus.
 On peut vérifier la version et les détails du BIOS avec :
 
 #+begin_src sh
-  sudo dmidecode | less
+sudo dmidecode | less
 #+end_src
 
 Dell fournit les mises-à-jour du BIOS via le Linux Vendor Firmware Service
 (LVFS via =fwupd=) :
 
 #+begin_src sh
-  sudo fwupdmgr get-devices
-  sudo fwupdmgr refresh
-  sudo fwupdmgr get-updates
+sudo fwupdmgr get-devices
+sudo fwupdmgr refresh
+sudo fwupdmgr get-updates
 #+end_src
 
 Et si besoin :
 
 #+begin_src sh
-  sudo fwupdmgr update
+sudo fwupdmgr update
 #+end_src
 
 Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
@@ -310,9 +308,9 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
   (datée du 15/06/2023).
 - Après téléchargement, on vérifie les signatures :
 #+begin_src sh
-  md5sum Precision_3581_1.4.1.exe
-  sha1sum Precision_3581_1.4.1.exe
-  sha256sum Precision_3581_1.4.1.exe
+md5sum Precision_3581_1.4.1.exe
+sha1sum Precision_3581_1.4.1.exe
+sha256sum Precision_3581_1.4.1.exe
 #+end_src
 - Copier le fichier sur une clé USB, redémarrer, appuyer sur =F12= pour avoir le
   menu de démarrage, sélectionner "BIOS Flash update" et suivre les
@@ -329,81 +327,81 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
   une utilisation plus modérée de la partition de SWAP (utile pour un
   SSD). Zswap peut s'appuyer sur =lz4= pour une compression plus
   performante. Pour cela, on édite le fichier de configuration des modules :
-  #+begin_src sh
-    sudo nano /etc/initramfs-tools/modules
-  #+end_src
+#+begin_src sh
+sudo nano /etc/initramfs-tools/modules
+#+end_src
   Et on ajoute à la fin :
-  #+begin_quote
-  : z3fold
-  : lz4
-  : lz4_compress
-  #+end_quote
+#+begin_quote
+: z3fold
+: lz4
+: lz4_compress
+#+end_quote
   Pour que la modification soit prise en compte :
-  #+begin_src sh
-    sudo update-initramfs -u
-  #+end_src
+#+begin_src sh
+sudo update-initramfs -u
+#+end_src
   Puis on active Zswap via GRUB :
-  #+begin_src sh
-    sudo nano /etc/default/grub
-  #+end_src
+#+begin_src sh
+sudo nano /etc/default/grub
+#+end_src
   Et on ajoute à la suite de la ligne démarrant par
   « GRUB_CMDLINE_LINUX_DEFAULT= » :
-  #+begin_quote
-  : zswap.enabled=1 zswap.compressor=lz4 zswap.max_pool_percent=25 zswap.zpool=z3fold
-  #+end_quote
+#+begin_quote
+: zswap.enabled=1 zswap.compressor=lz4 zswap.max_pool_percent=25 zswap.zpool=z3fold
+#+end_quote
   Pour que la modification soit prise en compte :
-  #+begin_src sh
-    sudo update-grub
-  #+end_src
+#+begin_src sh
+sudo update-grub
+#+end_src
   Après redémarrage, on vérifie que tout est bien configuré :
-  #+begin_src sh
-    grep -R . /sys/module/zswap/parameters
-  #+end_src
+#+begin_src sh
+grep -R . /sys/module/zswap/parameters
+#+end_src
   Qui devrait retourner :
-  #+begin_quote
-  : /sys/module/zswap/parameters/same_filled_pages_enabled:Y
-  : /sys/module/zswap/parameters/enabled:Y
-  : /sys/module/zswap/parameters/max_pool_percent:25
-  : /sys/module/zswap/parameters/compressor:lz4
-  : /sys/module/zswap/parameters/non_same_filled_pages_enabled:Y
-  : /sys/module/zswap/parameters/zpool:z3fold
-  : /sys/module/zswap/parameters/accept_threshold_percent:90
-  #+end_quote
+#+begin_quote
+: /sys/module/zswap/parameters/same_filled_pages_enabled:Y
+: /sys/module/zswap/parameters/enabled:Y
+: /sys/module/zswap/parameters/max_pool_percent:25
+: /sys/module/zswap/parameters/compressor:lz4
+: /sys/module/zswap/parameters/non_same_filled_pages_enabled:Y
+: /sys/module/zswap/parameters/zpool:z3fold
+: /sys/module/zswap/parameters/accept_threshold_percent:90
+#+end_quote
 
 - Augmenter la taille du volume de swap (à faire dans une session live si besoin
   de réduire =/root=, qui nécessite d'être démontée).
   - On sauvegarde la configuration :
-    #+begin_src sh
-      sudo vgcfgbackup -f vg-config
-    #+end_src
+#+begin_src sh
+sudo vgcfgbackup -f vg-config
+#+end_src
   - On trouve le nom du volume :
-    #+begin_src sh
-      sudo lvs
-    #+end_src
+#+begin_src sh
+sudo lvs
+#+end_src
   - Puis on l'éteint [/dev/VG/LV] :
-    #+begin_src sh
-      sudo swapoff /dev/vgubuntu/swap_1
-    #+end_src
+#+begin_src sh
+sudo swapoff /dev/vgubuntu/swap_1
+#+end_src
   - On récupère de l'espace d'un autre volume (=/root=) :
-    #+begin_src sh
-      sudo lvresize --resizefs -L-7G /dev/vgubuntu/root
-    #+end_src
+#+begin_src sh
+sudo lvresize --resizefs -L-7G /dev/vgubuntu/root
+#+end_src
   - On redimensionne le volume de swap :
-    #+begin_src sh
-      sudo lvresize -L+7G /dev/vgubuntu/swap_1
-    #+end_src
+#+begin_src sh
+sudo lvresize -L+7G /dev/vgubuntu/swap_1
+#+end_src
   - On termine en formatant le nouvel espace de swap pour le rendre utilisable :
-    #+begin_src sh
-      sudo mkswap /dev/vgubuntu/swap_1
-    #+end_src
+#+begin_src sh
+sudo mkswap /dev/vgubuntu/swap_1
+#+end_src
   - Et redémarrer le volume :
-    #+begin_src sh
-      sudo swapon /dev/vgubuntu/swap_1
-    #+end_src
+#+begin_src sh
+sudo swapon /dev/vgubuntu/swap_1
+#+end_src
   - On peut vérifier avec :
-    #+begin_src sh
-      swapon -s
-    #+end_src
+#+begin_src sh
+swapon -s
+#+end_src
 
 
 
@@ -414,14 +412,14 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
 
 - Avoir français (France) et anglais (UK, US) dans la liste des
   langues, en mettant le français comme langue par défaut :
-  #+begin_src sh
-    sudo dpkg-reconfigure locales
-  #+end_src
+#+begin_src sh
+sudo dpkg-reconfigure locales
+#+end_src
   Sélectionner =en-GB.UTF-8=, =en-US.UTF-8=, =fr-FR.UTF-8= (actif par défaut).
 - Enlever les langues qui ne sont plus nécessaires :
-  #+begin_src sh
-    sudo localepurge
-  #+end_src
+#+begin_src sh
+sudo localepurge
+#+end_src
 - [[https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions][Disposition du clavier ]]:
   * La liste des caractères et fonctions se trouve à :
     =/usr/include/X11/keysymdef.h=.
@@ -429,10 +427,10 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
     variante), qui inclue des caractères spéciaux (←→²³€—©☆§, etc.), des
     opérateurs mathématiques (±×÷≠≤≥), et les lettres, accents et ponctuation en
     français et espagnol (ÆæÀàÉéÈèÑñŒœÙù «» “” ¡¿, etc.) :
-    #+begin_src sh
-      sudo mv /usr/share/X11/xkb/symbols/fr /usr/share/X11/xkb/symbols/fr.bkp
-      sudo cp Keyboard/keyboard-DELL-Precision-3581_fr /usr/share/X11/xkb/symbols/fr
-    #+end_src
+#+begin_src sh
+sudo mv /usr/share/X11/xkb/symbols/fr /usr/share/X11/xkb/symbols/fr.bkp
+sudo cp Keyboard/keyboard-DELL-Precision-3581_fr /usr/share/X11/xkb/symbols/fr
+#+end_src
   * Puis dans les Paramètres GNOME > Pays et langue, choisir « Français
     (variante) » comme Source de saisie ; ajouter « Grec (étendu) » pour
     l'alphabet grec. Pour changer de clavier à la volée : =Windows+Espace=.
@@ -441,16 +439,16 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
 ** Réglagles spécifiques du bureau
 
 - Vérifier les applications favorites : Fichiers, Firefox, Thunderbird, Zoom,
-  Emacs, Libre Office, Moniteur système
+  Emacs, Libre Office Writer, Moniteur système
 - Vérifier les applications par défaut (Paramètres > Applications par défaut),
   notamment Firefox, Thunderbird, VLC.
 - Vérifier les applications au démarrage avec =Ajustements= (Applications au
   démarrage), notamment Firefox, Thunderbird, Zoom, Emacs, NextCloud et
   Fichiers.
 - Souris et pavé tactile : Activer =Taper pour cliquer= :
-  #+begin_src sh
-    gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-  #+end_src
+#+begin_src sh
+gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+#+end_src
 - Enlever le « bip » système : Paramètres GNOME > Son, mettre les Sons système
   en silence.
 - Raccourcis clavier :
@@ -462,31 +460,31 @@ Si la MAJ n'est pas possible (problème d'UEFI), on peut la faire à la main :
   - Enregistrer une capture vidéo interactivement : ~Super+R~
   - Verrouiller l'écran : ~Ctrl+Échap~
   - Basculer l'état d'agrandissement : ~Super+Return~
-  #+begin_src sh
-    gsettings set org.gnome.desktop.wm.keybindings minimize ['']
-    gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>h']"
-    gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
-    gsettings set org.gnome.shell.keybindings screenshot "['<Super>p']"
-    gsettings set org.gnome.shell.keybindings screenshot-window "['<Control><Super>p']"
-    gsettings set org.gnome.shell.keybindings show-screen-recording-ui ['<Super>r']
-    gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control>Escape']"
-    gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>Return']"
-  #+end_src
+#+begin_src sh
+gsettings set org.gnome.desktop.wm.keybindings minimize ['']
+gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>h']"
+gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
+gsettings set org.gnome.shell.keybindings screenshot "['<Super>p']"
+gsettings set org.gnome.shell.keybindings screenshot-window "['<Control><Super>p']"
+gsettings set org.gnome.shell.keybindings show-screen-recording-ui ['<Super>r']
+gsettings set org.gnome.settings-daemon.plugins.media-keys screensaver "['<Control>Escape']"
+gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>Return']"
+#+end_src
 - Nautilus : Préférences > Vues : Trier les dossiers avant les fichiers
 - Calendrier qui affiche le numéro de la semaine :
-  #+begin_src sh
-    gsettings set org.gnome.desktop.calendar show-weekdate true
-  #+end_src
+#+begin_src sh
+gsettings set org.gnome.desktop.calendar show-weekdate true
+#+end_src
 - Mode nuit : activé au lever/coucher du soleil ; couleur à niveau 1 (échelle
   0–3) ; note : contrôle également le passage au thème sombre si Night theme
   switcher est également installé /!\ On active au passage les services de
   géolocalisation pour avoir les horaires de lever/couchers de soleil /!\ :
-  #+begin_src sh
-    gsettings set org.gnome.system.location enabled true
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic true
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature uint32 3700
-  #+end_src
+#+begin_src sh
+gsettings set org.gnome.system.location enabled true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-automatic true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature uint32 3700
+#+end_src
   
 
 ** Extensions GNOME
@@ -501,9 +499,9 @@ Shell :
 - [[https://extensions.gnome.org/extension/2236/night-theme-switcher/][Night theme switcher]] : Passe automatiquement du thème clair au thème sombre
   selon les horaires du jour. 
 - [[https://extensions.gnome.org/extension/1113/nothing-to-say/][Nothing to say]] : Changer le raccourci pour ~Super+F1~ :
-  #+begin_src sh
-    dconf write /org/gnome/shell/extensions/nothing-to-say/keybinding-toggle-mute '["<Super>F1"]'
-  #+end_src
+#+begin_src sh
+dconf write /org/gnome/shell/extensions/nothing-to-say/keybinding-toggle-mute '["<Super>F1"]'
+#+end_src
 - [[https://extensions.gnome.org/extension/750/openweather/][OpenWeather]] : Il y a un bug avec le jeu d'icônes (Adwaita) qui est normalement
   corrigé avec l'installation de =gnome-icon-theme=.  Dans les paramètres,
   Agencement : mettre au centre, avec un décalage de 1 (pour l'avoir à droite de
@@ -521,11 +519,10 @@ Shell :
 
 *** Thunderbird
 
-Nettoyage des locales :
-
-  #+begin_src sh
-    sudo apt purge thunderbird-l10n-* && sudo apt install thunderbird-l10n-en-gb thunderbird-l10n-fr
-  #+end_src
+- Nettoyage des locales :
+#+begin_src sh
+sudo apt purge thunderbird-l10n-* && sudo apt install thunderbird-l10n-en-gb thunderbird-l10n-fr
+#+end_src
 
 Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
 
@@ -544,27 +541,27 @@ Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
   en fiches, Trier par date, Ordre décroissant, Discussions groupées. Il ne
   semble plus être possible de l'appliquer à tous. Vérifier tout de même :
   Paramètres > Général > Éditeur de configuration :
-  #+begin_quote
+#+begin_quote
 : mailnews.default_sort_order: 1
 : mailnews.default_sort_type: 22
-  #+end_quote
+#+end_quote
 - Limiter la largeur des messages textes à 80 caractères : Préférences > Général
   > Éditeur de configuration :
-  #+begin_quote
+#+begin_quote
 : mailnews.wraplength: 80
-  #+end_quote
+#+end_quote
 - Dans Paramètres > Vie privée et sécurité, Autoriser le contenu distant dans
   les messages (l'extension Allow HTTP Temp s'occupe de bloquer l'HTML).
 - Pas de délai dans la popup des pièces jointes : Paramètres > Général >
   Éditeur de configuration :
-  #+begin_quote
+#+begin_quote
 : security.dialog_enable_delay: 0
-  #+end_quote
+#+end_quote
 - Pour afficher les quotas IMAP tout le temps (par défaut, uniquement si
   > 75 %) : Paramètres > Général > Éditeur de configuration :
-  #+begin_quote
+#+begin_quote
 : mail.quota.mainwindow_threshold.show: 0
-  #+end_quote
+#+end_quote
 
   
 **** [[https://github.com/rafaelmardojai/thunderbird-gnome-theme][Thème GNOME]]
@@ -572,9 +569,9 @@ Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
 Télécharger le thème :
 
 #+begin_src sh
-  cd Debian/Thunderbird
-  git clone https://github.com/rafaelmardojai/thunderbird-gnome-theme && cd thunderbird-gnome-theme
-  ./scripts/auto-install.sh
+cd Debian/Thunderbird
+git clone https://github.com/rafaelmardojai/thunderbird-gnome-theme && cd thunderbird-gnome-theme
+./scripts/auto-install.sh
 #+end_src
 
 Puis le configurer dans =about:config= :
@@ -592,7 +589,7 @@ Pour les mises-à-jour, on va dans le dossier de profile Thunderbird
 =chrome/thunderbird-gnome-theme=, puis on met à jour le dépôt :
 
 #+begin_src sh
-  git pull origin main
+git pull origin main
 #+end_src
 
 
@@ -636,9 +633,9 @@ défaut dans Thunderbird).
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/send-later-3/][Envoyer Plus Tard]] [désactivé]
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/msghdr-toolbar-customize/][Message Header Toolbar Customize]] [désactivé]: dans la barre d'outils, « Customize
 - [[https://addons.thunderbird.net/fr/thunderbird/addon/show-inout/][Show InOut]] [désactivé et plus mis à jour] : réglage des [[https://www.ggbs.de/extensions/ShowInOut_Styles.html][styles]] : 
-  #+begin_quote
+#+begin_quote
 : toolkit.legacyUserProfileCustomizations.stylesheets: true
-  #+end_quote
+#+end_quote
   Cocher « Sujet » dans les colonnes sélectionnées, ajouter le dossier =chrome=
   avec les PNGs et le fichier =showInOut.css= dans le dossier d'utilisateur
   Thunderbird (=.thunderbird/***.default-release=). Redémarrer Thunderbird.
@@ -647,23 +644,32 @@ défaut dans Thunderbird).
 
 *** Firefox
 
+- Nettoyage des locales (vérifier aussi les fichiers dans
+  =/usr/lib/firefox-esr/browser/extensions/langpack-=): 
+#+begin_src sh
+sudo apt purge firefox-esr-l10n-* && sudo apt install firefox-esr-l10n-en-gb firefox-esr-l10n-fr
+#+end_src
 - Se connecter à Firefox Sync avec un profil vierge : cela synchronisera les
-  marques-page, mots de passe, historique, extensions et préférences. Attention, certains extensions ne sont pas ajoutées ou correctement configurées, et demandent un peu de manipulation manuelle (liste ci-dessous). Cela peut aussi prendre un peu de temps avant que tout ne soit fonctionnel…
+  marques-page, mots de passe, historique, extensions et préférences. Attention,
+  certains extensions ne sont pas ajoutées ou correctement configurées, et
+  demandent un peu de manipulation manuelle (liste ci-dessous). Cela peut aussi
+  prendre un peu de temps avant que tout ne soit fonctionnel…
 - Pas de délai dans la popup des pièces jointes : ouvrir l'éditeur de
   configuration (about:config) :
-  #+begin_quote
+#+begin_quote
 : security.dialog_enable_delay: 0
-  #+end_quote
-- Utilisation de Pocket pour sauvegarder des liens à lire pour plus tard. (en cours de test)
+#+end_quote
+- Utilisation de Pocket pour sauvegarder des liens à lire pour plus tard. (en
+  cours de test)
 
 **** [[https://github.com/rafaelmardojai/firefox-gnome-theme][Thème GNOME]]
 
 Télécharger le thème :
 
 #+begin_src sh
-  cd Firefox
-  git clone https://github.com/rafaelmardojai/firefox-gnome-theme/ && cd firefox-gnome-theme
-  ./scripts/install.sh -f ~/.mozilla/firefox
+cd Firefox
+git clone https://github.com/rafaelmardojai/firefox-gnome-theme/ && cd firefox-gnome-theme
+./scripts/install.sh -f ~/.mozilla/firefox
 #+end_src
 
 Puis le configurer dans =about:config= :
@@ -686,19 +692,8 @@ Pour les mises-à-jour, on va dans le dossier de profile Firefox
 =chrome/firefox-gnome-theme=, puis on met à jour le dépôt :
 
 #+begin_src sh
-  git pull origin master
+git pull origin master
 #+end_src
-
-
-**** Langues :
-
-Il y a un grand nombre de langues disponibles pour la correction orthographique.
-
-???
-
-sudo apt purge firefox-esr-l10n-* && sudo apt install firefox-esr-l10n-en-gb firefox-esr-l10n-fr 
-
-Check all files in: /usr/lib/firefox-esr/browser/extensions/langpack-
 
 
 **** Extensions :
@@ -844,36 +839,6 @@ d'apparition/disparition, on installe l'extension [[https://github.com/monperrus
 double-cliquant sur le fichier =.oxt=.
 
 
-*** QOwnNotes
-
-(check Iotas et Joplin)
-https://r4ven.fr/blog/joplin-nextcloud-sync-limited-sharing-webdav/
-
-QOwnNotes permet de gérer des notes au format Markdown ; avantage non
-négligeable, il permet de travailler sur des notes synchronisées via
-NextCloud. Pour l'installer :
-
-https://www.qownnotes.org/fr/installation/debian.html
-
-On utilise une interface minimale, sans barre de menu ni barre de statut
-(Fenêtre > Afficher, =Ctrl+Shift+M= pour retrouver le menu), sans les barres
-d'outils de chiffrement, de fenêtres et quitter (Fenêtre > Barres d'outils), et
-on rajoute le panneau de navigation (Fenêtre > Panneaux). 
-
-Dans Note > Préférences :
-
-- Commencer par configurer NextCloud pour les notes partagées ;
-- Dans Dossiers de notes, cocher « Utiliser les sous-dossiers » ;
-- Dans Interface, cocher « Activer l'icône de l'application et l'icône de la barre des tâches en mode sombre », « Afficher l'icône de la barre d'état système », et « Utiliser le thème d'icônes interne plutôt que celui du système » ; 
-- Dans Panneaux, cocher « Trier > Alphabétique » (Panneau de la liste de notes)
-  et « Masquer la barre de recherche d'éléments de navigation » (Panneau de
-  navigation).
-- Dans Barre d'outils, enlever « Afficher la liste des tâches » ;
-- Dans Général, décocher « Ouvrir la dernière note consultée au démarrage » ;
-
-Mes préférences exportées sont disponibles dans le dossier =QOwnNotes=.
-
-
 *** R, RStudio & QGIS
 
 
@@ -960,41 +925,41 @@ sudo aa-disable /usr/bin/evince
 =texlive-full=) ; et =pdfmanipulate= dans le paquet =calibre=.
 - Pour lier le fichier BibTex principal à l'installation LaTex. On vérifie d'abord :
 #+begin_src sh
-  kpsewhich -show-path=.bib
+kpsewhich -show-path=.bib
 #+end_src
   qui devrait inclure :
   =/home/<user>/.texlive2022/texmf-var/bibtex/bib//=. L'astuce est alors de
   créer dans ce dossier un lien vers le dossier de la bibliographie principale :
 #+begin_src sh
-  mkdir -p ~/.texlive2022/texmf-var/bibtex/bib
-  ln -s ~/Work/Biblio/ ~/.texlive2022/texmf-var/bibtex/bib
+mkdir -p ~/.texlive2022/texmf-var/bibtex/bib
+ln -s ~/Work/Biblio/ ~/.texlive2022/texmf-var/bibtex/bib
 #+end_src
 - Pour installer un paquet LaTeX (e.g. =moderncv=) :
 #+begin_src sh
-  sudo nano /etc/texmf/texmf.d/03local.cnf
+sudo nano /etc/texmf/texmf.d/03local.cnf
 #+end_src
 Et on y ajoute :
-  #+begin_quote
-  TEXMFHOME = ~/.texlive2022/texmf
-  #+end_quote
+#+begin_quote
+: TEXMFHOME = ~/.texlive2022/texmf
+#+end_quote
   Avant de mettre à jour la configuration LaTeX :
 #+begin_src sh
-  sudo update-texmf
+sudo update-texmf
 #+end_src
   On vérifie avec :
 #+begin_src sh
-  kpsewhich --var-value TEXMFHOME
+kpsewhich --var-value TEXMFHOME
 #+end_src
   Copier le paquet dans =~/.texlive2022/texmf/tex/latex/= et compléter
   l'installation si nécessaire :
 #+begin_src sh
-  latex moderntimeline.ins
-  latex moderntimeline.dtx
+latex moderntimeline.ins
+latex moderntimeline.dtx
 #+end_src
 - Pour installer une police LaTeX : copier la police dans
   =~/.texlive2016.d/texmf/fonts/truetype/=, puis mettre à jour l'index TeX :
 #+begin_src sh
-  sudo texhash
+sudo texhash
 #+end_src
 
 
@@ -1003,22 +968,20 @@ Et on y ajoute :
 
 - *ImageMagick* ([[https://askubuntu.com/questions/1181762/imagemagickconvert-im6-q16-no-images-defined][sécurité PDF]]) :
 #+begin_src sh
-  sudo sed -i_bak \
-       's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' \
-       /etc/ImageMagick-6/policy.xml
+sudo sed -i_bak \
+     's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' \
+     /etc/ImageMagick-6/policy.xml
 #+end_src
 
 - Lecture de DVDs :
 #+begin_src sh
-  sudo dpkg-reconfigure libdvd-pkg
+sudo dpkg-reconfigure libdvd-pkg
 #+end_src
 
 - *Chromium BSU* est un bon gros /shoot'em up/ qui défoule bien ; *DOSBox* un
   émulateur DOS pour jouer aux [[https://abandonware-france.org/][abandonwares]] ; *Marble* est un globe terrestre à
   la Google Earth ; *Stellarium* est un planétarium.
 
-
-***************************************************
 
 
 * Opérations systèmes
@@ -1037,8 +1000,8 @@ La procédure est très simple :
 2) On vérifie la version d'Ubuntu et s'il y a une mise-à-jour disponible :
 
 #+begin_src sh
-  lsb_release -a
-  do-release-upgrade --check-dist-upgrade-only
+lsb_release -a
+do-release-upgrade --check-dist-upgrade-only
 #+end_src
 
 3) Si on utilise une LTS, il faut passer la variable =Prompt= à =normal= (au
@@ -1047,7 +1010,7 @@ La procédure est très simple :
 4) On lance la MAJ en répondant aux questions posées :
 
 #+begin_src sh
-  do-release-upgrade
+do-release-upgrade
 #+end_src
 
 5) On réactive les dépôts de logiciels tiers dans =/etc/apt/sources.list.d=, par
@@ -1057,7 +1020,7 @@ La procédure est très simple :
 6) On vérifie finalement la version d'Ubuntu :
 
 #+begin_src sh
-  lsb_release -a
+lsb_release -a
 #+end_src
 
 ===================================================
@@ -1069,118 +1032,24 @@ Les noyaux peuvent s'accumuler au cours des mises-à-jour. On commence par
 vérifier la version utilisée :
 
 #+begin_src sh
-  uname -r 
+uname -r 
 #+end_src
 
 et la liste des noyaux installés :
 
 #+begin_src sh
-  dpkg --list | egrep -i --color 'linux-image|linux-headers'
+dpkg --list | egrep -i --color 'linux-image|linux-headers'
 #+end_src
 
 On peut ensuite enlever les noyaux qui ne sont plus nécessaires (on gardera le
 noyaux actuel et le précédent) :
 
 #+begin_src sh
-  sudo apt purge linux-image-XXX
+sudo apt purge linux-image-XXX
 #+end_src
 
 où =XXX= donne le numéro de version. On termine par mettre à jour GRUB :
 
 #+begin_src sh
-  sudo update-grub2
+sudo update-grub2
 #+end_src
-
-
-** Récupération système avec Tails
-
-On créé ici un système Live USB afin de monter le système de fichiers et d'y
-apporter les modifications nécessaires. Une solution est le système [[https://tails.boum.org/index.en.html][Tails]] live
-OS, orienté sécurité et vie privée (toujours bon à avoir sur une clé USB) : pour
-[[https://tails.boum.org/install/expert/usb-overview/index.en.html][installer Tails sur une clé USB]].
-
-Quand la clé est prête, on démarre l'ordinateur dessus. Il faut penser à mettre
-un mot de passe =root= à l'écran de démarrage (vérifier dans les options). Il
-faut ensuite monter la partition chiffrée, ce que l'on peut faire en ligne de
-commande :
-
-#+begin_src sh
-  sudo lsblk
-#+end_src
-
-On regarde ce qui ressemble à :
-
-#+begin_quote
-  : nvme0n1     … 238.5G … disk
-  : ├─nvme0n1p1 …   243M … part	
-  : ├─nvme0n1p2 …     1K … part
-  : └─nvme0n1p5 … 238.2G … part
-#+end_quote
-
-On nomme le volume chiffré =crypt= et on y accède ainsi :
-
-#+begin_src sh
-  sudo modprobe dm-crypt
-  sudo cryptsetup luksOpen /dev/nvme0n1p5 crypt
-#+end_src
-
-Il faut alors rentrer la phrase de passe du volume ET le mot de passe =root= de
-Tails. On obtient :
-
-#+begin_src sh
-  sudo lsblk
-#+end_src
-#+begin_quote
-  : nvme0n1     … 238.5G … disk
-  : ├─nvme0n1p1 …   243M … part	
-  : ├─nvme0n1p2 …     1K … part
-  : └─nvme0n1p5 … 238.2G … part
-  :   └─crypt   … 238.2G … crypt
-#+end_quote
-
-Le volume chiffré est désormais visible, il nous faut activer le volume
-d'intérêt :
-
-#+begin_src sh
-  sudo modprobe dm-mod
-  sudo vgscan
-#+end_src
-#+begin_quote
-  : Found volume group "mablap2-vg" using metadata type lvm2
-#+end_quote
-#+begin_src sh
-  sudo vgchange -a y mablap2-vg
-#+end_src 
-#+begin_quote
-  : 3 logical volume(s) in volume group "mablap2-vg" now active
-#+end_quote
-
-La dernière étape est de regarder les partitions à l'intérieur du volume et de
-monter ce qui est nécessaire (par exemple, la partition =/root=) :
-#+begin_src sh
-  sudo lvscan
-  sudo vgchange -a y mablap2-vg
-#+end_src 
-#+begin_quote
-  : ACTIVE  '/dev/mablap2-vg/root' [27.94 GiB] inherit
-  : ACTIVE  '/dev/mablap2-vg/swap' [7.61 GiB] inherit
-  : ACTIVE  '/dev/mablap2-vg/home' [202.68 GiB] inherit
-#+end_quote
-#+begin_src sh
-  sudo mkdir /media/root
-  sudo mount /dev/mablap-vg/root /media/root
-  cd /media/root
-  ls
-#+end_src 
-#+begin_quote
-  : bin boot etc …
-#+end_quote
-
-Le système est prêt pour les modifications. Une fois terminé, on ferme tout
-avant de quitter Tails :
-
-#+begin_src sh
-  sudo umount /media/root
-  sudo vgchange -a n mablap2-vg 
-  sudo cryptsetup luksClose crypt
-#+end_src 
