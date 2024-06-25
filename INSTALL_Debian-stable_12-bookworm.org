@@ -138,10 +138,10 @@ sudo apt install \
     `# Libre Office` libreoffice-style-sifr/bookworm-backports \
     `# R` r-base r-base-core r-base-dev r-recommended littler r-cran-rjags r-cran-rjava r-cran-rodbc r-cran-tkrplot libgdal-dev libproj-dev libgeos-dev libnetcdf-dev libnode-dev libgsl-dev libgmp-dev libmpfr-dev libcurl4-openssl-dev libssl-dev libxml2-dev libcairo2-dev libxt-dev libmagick++-dev libudunits2-dev libharfbuzz-dev libfribidi-dev libgit2-dev tcl-dev tk-dev opencl-headers \
     `# QGIS` qgis \
-    `# LaTex/PDF` texlive-full bibtex2html bookletimposer calibre gedit-latex-plugin gummi impressive ispell latex2rtf latexmk lcdf-typetools libtext-pdf-perl mupdf pandoc pdf2djvu pdf2svg pdfarranger pdfchain pdfposter pdfsam pdftk poppler-utils qpdf xournal \
+    `# LaTex/PDF` texlive-full bibtex2html bookletimposer calibre gedit-latex-plugin gummi impressive ispell latex2rtf latexmk lcdf-typetools libtext-pdf-perl mupdf pandoc pdf2djvu pdf2svg pdfarranger pdfchain pdfposter pdfsam pdftk poppler-utils qpdf xournalpp \
     `# Divers` homebank sweethome3d \
     `# Codecs` flac frei0r-plugins gnome-video-effects-frei0r gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libdvd-pkg vorbis-tools vorbisgain \
-    `# Audio/video` audacity cuetools easytag ffmpeg shntool soundconverter devede gnome-mpv mkvtoolnix pitivi sound-juicer sox subtitleeditor vlc youtube-dl \
+    `# Audio/video` audacity cuetools easytag libimage-exiftool-perl ffmpeg shntool soundconverter devede gnome-mpv mkvtoolnix pitivi sound-juicer sox subtitleeditor vlc youtube-dl \
     `# Images` gimp-gmic gimp-plugin-registry gthumb imagemagick inkscape \
     `# Musique` lilypond frescobaldi \
     `# Jeux/loisirs` chromium-bsu dosbox marble stellarium
@@ -420,7 +420,7 @@ sudo dpkg-reconfigure locales
 #+begin_src sh
 sudo localepurge
 #+end_src
-- [[https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions][Disposition du clavier ]]:
+- [[https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions][Disposition du clavier ]][à faire]:
   * La liste des caractères et fonctions se trouve à :
     =/usr/include/X11/keysymdef.h=.
   * J'utilise un clavier légèrement personnalisé (basé sur le Français —
@@ -435,6 +435,10 @@ sudo cp Keyboard/keyboard-DELL-Precision-3581_fr /usr/share/X11/xkb/symbols/fr
     (variante) » comme Source de saisie ; ajouter « Grec (étendu) » pour
     l'alphabet grec. Pour changer de clavier à la volée : =Windows+Espace=.
 
+Vérifer
+https://toutetrien.lithio.fr/article/une-histoire-de-latex-et-point-median/ pour
+le point médian (pas celui du clavier qui est l'opérateur mathématique)
+Attention : ne marche pas sous Wayland, il faut bien modifier dans xkb
 
 ** Réglagles spécifiques du bureau
 
