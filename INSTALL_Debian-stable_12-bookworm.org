@@ -149,7 +149,9 @@ sudo apt install \
     `# Libre Office` -t bookworm-backports libreoffice-style-sifr
 #+end_src
 
-Effectuer une mise-à-jour de nettoyage pour terminer, avec mise-à-jour de l'index de =locate= (pour recherche de fichiers en ligne de commande) et configuration pour la lecture des DVDs :
+Effectuer une mise-à-jour de nettoyage pour terminer, avec mise-à-jour de
+l'index de =locate= (pour recherche de fichiers en ligne de commande) et
+configuration pour la lecture des DVDs :
 
 #+begin_src sh
 sudo apt update && sudo apt full-upgrade && sudo apt clean && sudo apt autoclean && sudo apt autoremove && sudo updatedb && sudo dpkg-reconfigure libdvd-pkg
@@ -818,6 +820,11 @@ dossier de configuration créé après la première utilisation de GFTP (`~/.gft
   Caladea). Laisser « Toujours » et « Écran uniquement » décochés.
 - Pour installer des polices TrueType (=.ttf=), simplement les copier dans
   =~/.fonts/~ (créer le dossier au besoin).
+- En cas de problème d'affichage des polices, on peut régénérer le cache via :
+
+#+begin_src sh
+sudo dpkg-reconfigure fontconfig fontconfig-config
+#+end_src
 
 *** Emacs
 
@@ -830,6 +837,66 @@ git clone git@github.com:basille/.emacs.d ~/.emacs.d/
 Ouvrir Emacs, qui va installer tout un ensemble de packages et
 s'auto-configurer. Si besoin, relancer Emacs plusieurs fois jusqu'à ce que tous
 les packages soient installés.
+
+**** Formater des fichiers markdown
+
+On utilise [[https://dprint.dev/overview/][dprint]] pour cela :
+
+#+begin_src sh
+curl -fsSL https://dprint.dev/install.sh | sh
+nano ~/.bashrc
+#+end_src
+#+begin_quote
+: # dprint dans le PATH
+: export DPRINT_INSTALL="/home/mathieu/.dprint"
+: export PATH="$DPRINT_INSTALL/bin:$PATH"
+#+end_quote
+
+#+begin_src sh
+nano .dprint.json
+#+end_src
+#+begin_quote
+: {
+:   "markdown": {
+:       "lineWidth": 80,
+:       "newLineKind": "lf",
+:       "textWrap": "always",
+:       "emphasisKind": "asterisks",
+:       "strongKind": "asterisks",
+:       "ignoreDirective": "dprint-ignore",
+:       "ignoreFileDirective": "dprint-ignore-file",
+:       "ignoreStartDirective": "dprint-ignore-start",
+:       "ignoreEndDirective": "dprint-ignore-end"
+:   },
+:   "markup": {
+:   },
+:   "yaml": {
+:   },
+:   "excludes": [],
+:   "plugins": [
+:     "https://plugins.dprint.dev/markdown-0.17.8.wasm",
+:     "https://plugins.dprint.dev/g-plane/markup_fmt-v0.12.0.wasm",
+:     "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.5.0.wasm"
+:   ]
+: }
+#+end_quote
+
+Pour mettre à jour :
+
+#+begin_src sh
+dprint upgrade
+#+end_src
+
+Pour formater, on utilise la commande =fmt=. Attention, =dprint= formate par
+défaut (sans argument) tous les fichiers dans le dossier courant et ses
+sous-dossiers. On peut spécifier le ou les fichiers à formater, et en exclure
+d'autres (avec =--exludes=) :
+
+#+begin_src sh
+dprint fmt
+dprint fmt some_file.md
+dprint fmt **/*.js --excludes **/data
+#+end_src
 
 
 *** LibreOffice
