@@ -694,7 +694,7 @@ rajoutera ensuite les extensions liées aux sites visités directement à droite
 la barre d'adresse (par exemple Pocket ou Bitwarden).
 
 Pour les mises-à-jour, on va dans le dossier de profile Firefox
-(=~/snap/firefox/common/.mozilla/firefox/XXX.default=), sous-dossier
+(=~/.mozilla/firefox/XXX.default-esr=), sous-dossier
 =chrome/firefox-gnome-theme=, puis on met à jour le dépôt :
 
 #+begin_src sh
