@@ -568,7 +568,10 @@ Le dossier de profile se trouve dans =~/.thunderbird/XXX.default-default=.
 #+begin_quote
 : mail.quota.mainwindow_threshold.show: 0
 #+end_quote
-
+- Dans le calendrier, empêcher le scroll de souris de changer de mois :
+#+begin_quote
+: calendar.view.mousescroll: false
+#+end_quote
   
 **** [[https://github.com/rafaelmardojai/thunderbird-gnome-theme][Thème GNOME]]
 
