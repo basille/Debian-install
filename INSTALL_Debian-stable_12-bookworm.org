@@ -25,6 +25,7 @@ correspondantes.
   - [[#configuration-du-terminal--tilix][Configuration du terminal : Tilix]]
   - [[#bios-dell][BIOS Dell]]
   - [[#batterie-swap-et-ram][Batterie, SWAP et RAM]]
+  - [[#note-bluetooth][Note Bluetooth]]
 - [[#configurer-le-bureau][Configurer le bureau]]
   - [[#clavier-et-internationalisation][Clavier et internationalisation]]
   - [[#réglagles-spécifiques-du-bureau][Réglagles spécifiques du bureau]]
@@ -141,6 +142,7 @@ sudo apt install \
     `# LaTex/PDF` texlive-full bibtex2html bookletimposer calibre gedit-latex-plugin gummi impressive ispell latex2rtf latexmk lcdf-typetools libtext-pdf-perl mupdf pandoc pdf2djvu pdf2svg pdfarranger pdfchain pdfposter pdfsam pdftk poppler-utils qpdf xournalpp \
     `# Divers` homebank sweethome3d \
     `# Codecs` flac frei0r-plugins gnome-video-effects-frei0r gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libdvd-pkg vorbis-tools vorbisgain \
+    `# Spécial Bluetooth` pulsemixer pipewire{,-alsa,-jack,-pulse} libspa-0.2-bluetooth wireplumber bluez-alsa-utils \
     `# Audio/video` audacity cuetools easytag libimage-exiftool-perl ffmpeg shntool soundconverter devede gnome-mpv mkvtoolnix pitivi sound-juicer sox subtitleeditor vlc youtube-dl \
     `# Images` gimp-gmic gimp-plugin-registry gthumb imagemagick inkscape \
     `# Musique` lilypond frescobaldi \
@@ -406,6 +408,31 @@ swapon -s
 #+end_src
 
 
+** Note Bluetooth
+
+La gestion du Bluetooth est parfois un peu hasardeuse, notamment pour les
+périphériques audio (casques/oreillettes)… En principe, tout passe par
+=PipeWire=, qui a remplacé =PulseAudio=, mais on a besoin de quelques modules
+supplémentaires (=-alsa=, =-jack=, =-pulse=) pour être tranquille. On y rajoute
+des librairies et outils en plus (=pulsemixer=, =libspa-0.2-bluetooth=,
+=wireplumber=, =bluez-alsa-utils=).
+
+Concernant les codecs audio utilisés, [[https://wiki.debian.org/BluetoothUser/a2dp][Bluetooth]] a une limitation de bande
+passante qui fait qu'on a soit un mode unidirectionnel (=A2DP=) avec ) des
+codecs permettant une bonne qualité audio (=SBC=, =AptX= ou =LDAC=), soit un
+mode bidirectionnel (=HFP= ou =HSP=) permettant le micro (avec codec =mSBC= de
+préférence, ou =CVSD=).
+
+Pour vérifier les spécifications des périphériques Bluetooth, on peut utiliser :
+
+#+begin_src sh
+pactl list sinks
+#+end_src
+
+Pour basculer d'un périphérique à l'autre, ça se passe dans le panneau de
+contrôle en haut à droite de GNOME (le choix du micro ne s'affiche que quand une
+application souhaite utiliser le micro). Le choix des codecs se fait dans les
+réglages sons du système. 
 
 * Configurer le bureau
 
@@ -422,7 +449,7 @@ sudo dpkg-reconfigure locales
 #+begin_src sh
 sudo localepurge
 #+end_src
-- [[https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions][Disposition du clavier ]][à faire]:
+- [[https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions][Disposition du clavier]] [à faire]:
   * La liste des caractères et fonctions se trouve à :
     =/usr/include/X11/keysymdef.h=.
   * J'utilise un clavier légèrement personnalisé (basé sur le Français —
