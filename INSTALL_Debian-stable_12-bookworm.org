@@ -432,7 +432,18 @@ pactl list sinks
 Pour basculer d'un périphérique à l'autre, ça se passe dans le panneau de
 contrôle en haut à droite de GNOME (le choix du micro ne s'affiche que quand une
 application souhaite utiliser le micro). Le choix des codecs se fait dans les
-réglages sons du système. 
+réglages sons du système.
+
+Le Bluetooth peut être assez instable en terme de configuration. Pistes de
+solution :
+
+- Supprimer le périphérique de la liste Bluetooth avant de le reconfigurer
+  (appairage) ;
+- Relancer le serveur Bluetooth :
+
+#+begin_src sh
+sudo service bluetooth restart
+#+end_src
 
 * Configurer le bureau
 
