@@ -130,7 +130,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt install \
     `# Terminal` tilix python3-nautilus powerline fonts-powerline most bash-completion \
-    `# Utilitaires` cmake git gparted htop mlocate net-tools python3-pip rename sqlite3 fwupd tlp tlp-rdw localepurge flatpak gnome-software-plugin-flatpak \
+    `# Utilitaires` cmake git gparted htop mlocate net-tools python3-pip rename sqlite3 fwupd tlp tlp-rdw localepurge flatpak gnome-software-plugin-flatpak ripgrep \
     `# GNOME` gnome-session gnome-icon-theme gnome-shell-extension-manager gnome-shell-extension-appindicator systemd-timesyncd \
     `# Web` chromium epiphany-browser torbrowser-launcher privoxy nextcloud-desktop nautilus-nextcloud \
     `# Utilitaires web` cifs-utils dnsutils gftp gocryptfs gvncviewer network-manager-openconnect-gnome network-manager-openvpn-gnome network-manager-vpnc-gnome openfortivpn network-manager-fortisslvpn-gnome revelation rsync screen unison \
@@ -736,7 +736,8 @@ la barre d'adresse (par exemple Pocket ou Bitwarden).
 
 Pour les mises-à-jour, on va dans le dossier de profile Firefox
 (=~/.mozilla/firefox/XXX.default-esr=), sous-dossier
-=chrome/firefox-gnome-theme=, puis on met à jour le dépôt :
+=chrome/firefox-gnome-theme=, puis on met à jour le dépôt et on redémarre
+Firefox :
 
 #+begin_src sh
 git pull origin master
