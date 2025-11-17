@@ -1,0 +1,396 @@
+#+TITLE: Debian Stable (Jessie) install
+#+AUTHOR: Mathieu Basille
+
+This is a complete tutorial to install Debian Stable (Jessie). See
+also the official [[https://www.debian.org/releases/stable/amd64/][Debian installation guide]]. Most of the instructions
+are general enough to be applied on any computer. Keep in mind,
+however, that:
+- Hardware configuration (including keyboard layout) is tuned for a
+  laptop *DELL Latitude E6320*;
+- The system is in French, with AZERTY keyboard layout.
+
+
+* Table of contents                                                     :TOC_3:
+ - [[#installing-debian-with-the-base-gnome-desktop][Installing Debian with the base Gnome desktop]]
+   - [[#download-the-installer][Download the installer]]
+     - [[#the-debian-way][The Debian way]]
+     - [[#the-easy-way][The easy way]]
+   - [[#install-debian][Install Debian]]
+   - [[#terminal-setup][Terminal setup]]
+   - [[#system-settings][System settings]]
+   - [[#apt-and-upgrade][APT and upgrade]]
+ - [[#installing-a-full-system][Installing a full system]]
+   - [[#miscellaneous][Miscellaneous]]
+   - [[#gnome-extensions][Gnome extensions]]
+   - [[#web][Web]]
+     - [[#firefox][Firefox]]
+   - [[#multimedia][Multimedia]]
+   - [[#office][Office]]
+     - [[#fonts][Fonts]]
+   - [[#other][Other]]
+     - [[#google-stuff][Google Stuff]]
+     - [[#skype][Skype]]
+   - [[#final-stage][Final stage]]
+
+* Installing Debian with the base Gnome desktop
+
+
+** Download the installer
+
+
+*** The Debian way
+
+Start by downloading an image of
+[[https://www.debian.org/distrib/ftplist][Debian] for Debian Stable
+(Jessie), according to the platform of the computer. A good choice is
+the Network install (=netinst=), which will fetch all system packages
+directly on-line when installing. In this case, download is the ISO
+image for USB sticks for amd64
+(=debian-8.7.1-amd64-netinst.iso=). Then check [[http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/MD5SUMS][MD5 sums]] to guarantee
+the integrity of the file:
+
+#+BEGIN_SRC sh
+  md5sum debian-8.7.1-amd64-netinst.iso
+#+END_SRC
+#+RESULTS:
+  : 453312bf56fc45669fec5ebc0f025ac7  debian-8.7.1-amd64-netinst.iso
+
+The next step is to copy the ISO on a USB flash drive. First check
+on which device the flash drive is mounted:
+
+#+BEGIN_SRC sh
+  df -h
+#+END_SRC
+#+RESULTS:
+  : Filesystem      Size  Used Avail Use% Mounted on
+  : /dev/sda1        28G   15G   12G  55% /
+  : ...
+  : /dev/sda3       204G  195G  2.8G  99% /home
+  : tmpfs           789M   40K  789M   1% /run/user/1000
+  : /dev/sdb1       7.5G  184K  7.5G   1% /media/<user>/<FLASH>
+
+In this case, this shows that the flash drive is associated to
+=sdb1=. Note that we need to write to the whole disk, so we will be
+using =sdb=, not the partition =sdb1=.  (WARNING #1: This formats the
+entire stick! WARNING #2: Change the value of =sdb= accordingly!
+WARNING #3: The =sync= command can take quite a while):
+
+#+BEGIN_SRC sh
+  sudo dd if=debian-8.7.1-amd64-netinst.iso of=/dev/sdb1
+  sudo sync
+#+END_SRC
+
+Now unmount the flash drive, and from now on, all other steps will be
+on the 'target' computer.
+
+  : sudo umount /dev/sdb1 
+
+
+*** The easy way
+
+*NOTE:* For a reason, the standard procedure above failed for me this
+time, with the system being unable to boot on the flash drive… A
+workaround is simply to use =Unetbootin= GUI to create the USB
+bootable image (using the Netinstall 64 bits for Debian Stable), check
+that the =boot= flag is set on the drive (with GParted), and move
+directly to the next step.
+
+
+** Install Debian
+
+You can now boot the computer on the USB flash drive (on a modern DELL
+laptop, that requires to turn off UEFI Security Boot, in favor of
+Legacy boot) and follow the instructions. General guidelines:
+
+- *Root:* Leave the password empty — that way, root permissions are
+  given to the first user using =sudo=.
+- *Partitions:* Use *Guided - use entire disk*, with only one
+  partition for everything. The partitioner will allocate 10 GB for
+  the swap (a little bit more than the RAM amount). Two good
+  modifications are to keep only 3 % of reserved blocks for root
+  (maintenance).
+- It's a good idea to participate in the package usage survey (results
+  are encrypted).
+- Chose GNOME for the desktop, and leave =print server= and =standard
+  system utilities=.
+- Finally, install the GRUB boot loader to the master boot record on
+  the first hard drive (pick the hard drive, not the USB flash
+  drive!).
+- Time to restart!
+
+
+** Terminal setup
+
+- In the preferences, remove menu, and use a dark theme; in the
+  Profile preferences, remove the terminal Beep.
+- Bash configuration:
+  : sudo nano /etc/bash.bashrc
+  - *Autocompletion:* uncomment the following lines:
+  #+BEGIN_QUOTE
+  : if ! shopt -oq posix; then
+  :   if [ -f /usr/share/bash-completion/bash_completion ]; then
+  :     . /usr/share/bash-completion/bash_completion
+  :   elif [ -f /etc/bash_completion ]; then
+  :     . /etc/bash_completion
+  :   fi
+  : fi
+  #+END_QUOTE
+  - *Other:* add the following at the end of the file:
+  #+BEGIN_QUOTE
+  : # Ctrl-N keeps current directory
+  : export PS1='\[$(__vte_ps1)\]'$PS1
+  : 
+  : # Manpages with colors
+  : export MANPAGER="/usr/bin/most -s"
+  : 
+  : # Alias upgrade & upgrade-full
+  : alias upgrade='sudo apt update && sudo apt upgrade'
+  : alias upgrade-full='sudo apt update && sudo apt full-upgrade && sudo apt-get clean && sudo apt-get autoclean && sudo apt-get autoremove'
+  #+END_QUOTE
+
+
+** System settings
+
+- [[https://wiki.debian.org/SSDOptimization][Optimize SSD]]:
+  - [[http://doc.ubuntu-fr.org/ssd_solid_state_drive#diminuer_la_frequence_d_ecriture_des_partitions][Reduce write frequency]] + boost performance:
+    : sudo nano /etc/fstab
+    Add the =noatime= and =discard= options for every SSD partition.
+  - =/tmp= in RAM:
+    : sudo nano /etc/fstab
+    #+BEGIN_QUOTE
+    # /tmp dans la RAM
+    tmpfs      /tmp            tmpfs        defaults,size=1g
+    #+END_QUOTE
+  - Init settings:
+    : sudo update-initramfs -u -k all
+  - Remove =.xsession-errors=
+    : echo 'ln -fs /dev/null "$HOME"/.xsession-errors' | sudo tee /etc/X11/Xsession.d/00disable-xsession-errors
+- Use only SWAP when 99% of RAM is used:
+  : sudo nano /etc/sysctl.conf
+  Add at the end of the file:
+  #+BEGIN_QUOTE
+  : # SWAP after 99% RAM used 
+  : vm.swappiness = 1
+  #+END_QUOTE
+- Date in the top bar with time:
+  : gsettings set org.gnome.desktop.interface clock-show-date true
+- Keep numpad activated between sessions:
+  : gsettings set org.gnome.settings-daemon.peripherals.keyboard remember-numlock-state true
+- Disable the sleep button (mapped to Fn+Insert) [doesn't work?]:
+  : gsettings set org.gnome.settings-daemon.plugins.power power-button-action "nothing"
+- System settings
+  - Remove the system beep: in Sound > Sound Effects, turn off the
+    Alert volume.
+  - Touchpad: in Mouse & Touchpad, activate "Tap to Click", "Natural
+    Scrolling" and "Two-finger Scrolling".
+  - Keyboard shortcuts:
+    - Home folder: Super+H
+    - Hide all normal windows: Super+D
+    - Lock screen: Ctrl+Echap
+    - Toggle maximization state: Super+Return
+    - Add Custom shortcut: Terminal / =gnome-terminal= / Super+T
+- Nautilus: Preferences > Views: Sort folders before files
+
+
+** APT and upgrade
+
+- Copy =sources.list= and =preferences= in =/etc/apt/=.
+  : sudo cp etc/apt/sources.list.jessie-stable /etc/apt/sources.list
+- Avoid downloading translation indexes:
+  : sudo nano /etc/apt/apt.conf.d/apt.conf
+  #+BEGIN_QUOTE
+  : Acquire::Languages "none";
+  #+END_QUOTE
+- Enable the installation of i386 packages:
+  : sudo dpkg --add-architecture i386
+- Complete upgrade + install:
+  : sudo apt update
+  : sudo apt install deb-multimedia-keyring pkg-mozilla-archive-keyring most
+  : sudo apt upgrade
+  : sudo apt full-upgrade
+  : upgrade-full
+- [[http://wiki.debian.org/fr/iwlwifi][WIFI Firmware support]]:
+  : sudo apt install firmware-iwlwifi
+  : sudo modprobe -r iwlwifi
+  : sudo modprobe iwlwifi
+
+
+* Installing a full system
+
+
+** Miscellaneous
+
+  : sudo apt install autoconf build-essential cmake cmake-curses-gui debian-goodies detox disper git gnome-common gparted gtick hibernate mlocate ntp privoxy subversion transmission units unrar virtualbox wakeonlan
+
+
+** Gnome extensions
+
+To be able to install- Gnome extensions from Firefox ≥v.52, a Debian
+package and a [[https://addons.mozilla.org/en-US/firefox/addon/gnome-shell-integration/][Firefox extension]] are required:
+
+  : sudo apt install python-requests
+  : wget http://ftp.us.debian.org/debian/pool/main/c/chrome-gnome-shell/chrome-gnome-shell_8-3_all.deb
+  : sudo dpkg -i chrome-gnome-shell_8-3_all.deb
+
+[[https://extensions.gnome.org/local/][List of extensions]] (o Installed; x Installed but not activated):
+
+- x AlternateTab
+- x Applications Menu
+- o Auto Move Windows
+- o BackSlide
+- o Disconnect Wifi
+- x Launch new instance
+- o Media player indicator
+- o Modern Calc
+- x Native Window Placement
+- o OpenWeather
+- x Places Status Indicator
+- o Refresh Wifi Connections
+- x Removable Drive Menu
+- o Remove Dropdown Arrows
+- o Skype Integration
+- o Suspend Button
+- o TopIcons Plus
+- x User Themes
+- x Window List
+- o windowNavigator
+- x Workspace Indicator
+- x workspaceAltTab (outdated)
+
+
+** Web
+
+  : sudo apt install firefox-esr icedove iceowl-extension mozplugger
+
+*** Firefox
+
+- *Plugins:* Need to activate OpenH264 Video Codec provided by Cisco.
+- To install Flash on Debian Jessie (Stable), it is necessary to do it
+  manually. First get the Flash archive on the [[http://get.adobe.com/flashplayer][Flash Player download
+  page]], extract it, close Firefox, and copy the library to the plugin
+  folder for Firefox:
+
+#+BEGIN_SRC 
+  sudo cp libflashplayer.so /usr/lib/mozilla/plugins
+#+END_SRC
+
+- Restart Firefox and customize interface (buttons in the top bar and
+  menu).
+
+Here is the full list of add-ons that I normally install:
+- Essential security and privacy:
+  - [[https://addons.mozilla.org/fr/firefox/addon/betterprivacy/][Better Privacy]] (if Flash installed)
+  - [[https://addons.mozilla.org/fr/firefox/addon/https-everywhere/][HTTPS Everywhere]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/privacy-badger-firefox/][Privacy Badger]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/self-destructing-cookies/][Self-Destructing Cookies]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/ublock-origin/][uBlock Origin]]
+- Essential functionalities:
+  - [[https://addons.mozilla.org/fr/firefox/addon/findbar-tweak/][FindBar Tweak]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/tab-groups-panorama/][Tab Groups]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/lazarus-form-recovery/][Lazarus: Form Recovery]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/scrapbook/][ScrapBook]]
+- Appearance and integration with GNOME 3:
+  - [[https://addons.mozilla.org/fr/firefox/addon/gnome-theme-tweak/][GNOME Theme Tweak]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/gnotifier/][GNotifier]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/htitle/][HTitle]] (discontinued!)
+  - [[https://addons.mozilla.org/en-US/firefox/addon/gnome-shell-integration/][GNOME Shell integration]]
+- Videos and streaming:
+  - [[https://addons.mozilla.org/fr/firefox/addon/download-youtube/][Download YouTube Videos as MP4]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/user-agent-switcher/][User-Agent Switcher]] (useful for Netflix for instance)
+  - [[https://addons.mozilla.org/fr/firefox/addon/video-downloadhelper/][Video DownloadHelper]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/youtube-all-html5/?src=search][YouTube ALL HTML5]]
+- Others:
+  - [[https://addons.mozilla.org/fr/firefox/addon/checkcompatibility/][checkCompatibility]] (because some add-ons don't keep up with new
+    Firefox versions)
+  - [[https://addons.mozilla.org/fr/firefox/addon/clean-links/][Clean Links]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/flagfox/][Flagfox]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/nuke-anything-enhanced/][Nuke Anything Enhanced]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/qwantcom-for-firefox/][Qwant for Firefox]]
+  - [[https://addons.mozilla.org/fr/firefox/addon/shaarli/][Shaarli]]
+  - [[https://addons.mozilla.org/en-US/firefox/addon/smart-referer/][Smart Referer]]
+
+And the list of search engines that I keep:
+- Google [by default]
+- [[https://addons.mozilla.org/fr/firefox/addon/google-fr-recherche-sur-le-web/][Google.fr (Web)]] [installed]
+- Wikipedia (en)
+- [[https://addons.mozilla.org/fr/firefox/addon/wikipedia-fr/][Wikipedia (fr)]] [installed]
+- [[https://addons.mozilla.org/fr/firefox/addon/qwant/][Qwant]] [installed]
+- Debian packages
+
+
+** Multimedia
+
+- Pictures
+  : sudo apt install gimp-gmic gimp-plugin-registry gimp-resynthesizer gthumb hugin imagemagick phatch qtpfsgui 
+
+- Audio/video
+  : sudo apt install easytag flac gstreamer1.0-fluendo-mp3 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly soundconverter devede mkvtoolnix oggconvert pitivi frei0r-plugins gnome-video-effects-frei0r openshot rhythmbox-plugins sound-juicer sox subtitleeditor vlc vorbis-tools vorbisgain
+
+- Leisure
+  : sudo apt install chromium-bsu dosbox marble stellarium sweethome3d
+
+
+** Office
+
+  : sudo apt install abiword aspell aspell-fr aspell-en gnote homebank hunspell hunspell-en-ca hunspell-en-us hunspell-fr inkscape jabref libreoffice-gnome libreoffice-gtk libreoffice-pdfimport libreoffice-style-oxygen libreoffice-style-sifr myspell-en-gb pandoc pandoc-citeproc tesseract-ocr tesseract-ocr-eng tesseract-ocr-fra
+
+- Need to remove all links to French dictionaries:
+  : sudo rm /usr/share/hunspell/fr_*
+  : sudo rm /usr/share/myspell/dicts/fr_*
+  In case of trouble, just reinstal =hunspell-fr=.
+- Change Icon style of LibreOffice (Tools > Options > LibreOffice >
+  View) to Breeze, and possibly Show Icons in menus.
+- Preferences for HomeBank are stored in =~/.config/homebank=. It's
+  probably safe to simply copy this folder.
+
+
+*** Fonts
+
+  : sudo apt install fonts-arphic-ukai fonts-arphic-uming fonts-arphic-gkai00mp fonts-arphic-gbsn00lp fonts-arphic-bkai00mp fonts-arphic-bsmi00lp fonts-crosextra-carlito fonts-crosextra-caladea ttf-mscorefonts-installer ttf-kochi-gothic ttf-kochi-mincho ttf-baekmuk unifont
+
+- [[https://wiki.debian.org/SubstitutingCalibriAndCambriaFonts][Alternatives for Calibri/Cambria]] (MS fonts) : Carlito and
+  Caladea. Once installed, in LibreOffice: Options > Fonts, check
+  'Apply replacement table', and add a replacement rule for each
+  (Calibri -> Carlito, Cambria -> Caladea). Leave everything unchecked
+  (Always and screen only).
+
+
+** Other
+
+
+*** Google Stuff
+
+
+**** Google Earth
+
+Get official .deb from [[https://www.google.com/earth/download/ge/agree.html][Google]], then:
+  : sudo dpkg -i google-earth-stable_current_amd64.deb
+  : sudo apt -f install
+
+
+*** Skype
+
+At last, Microsoft now provides a decent version of Skype for Linux
+(based on their new web version), currently in its alpha stage. The
+application seems to work fine, and can be concurrently installed with
+the 'legacy' version (it's called "Skype for Linux" and the binary is
+=skypeforlinux=):
+
+  : wget https://repo.skype.com/latest/skypeforlinux-64-alpha.deb
+  : sudo dpkg -i skypeforlinux-64-alpha.deb 
+  : sudo apt -f install
+  : rm skypeforlinux-64-alpha.deb 
+
+Note that alternatives exist, such as [[https://github.com/stanfieldr/ghetto-skype][Ghetto Skype]] (which does not
+currently provide video calls).
+
+
+** Final stage
+
+- Check default applications (Settings > Details > Default
+  Applications).
+- Check applications on startup with =gnome-tweak-tool= (Startup
+  Applications: icedove, firefox, nautilus, gnote).
+- Final cleaning:
+  : upgrade-full
+

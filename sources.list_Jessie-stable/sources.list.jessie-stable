@@ -1,0 +1,20 @@
+#------------------------------------------------------------------------------#
+#                   OFFICIAL DEBIAN REPOS                    
+#------------------------------------------------------------------------------#
+
+### Debian Main Repos
+deb http://ftp.us.debian.org/debian/ jessie main contrib non-free
+deb http://ftp.us.debian.org/debian/ jessie-updates main contrib non-free
+deb http://security.debian.org/ jessie/updates main
+deb http://ftp.debian.org/debian jessie-backports main
+
+#------------------------------------------------------------------------------#
+#                      UNOFFICIAL  REPOS                       
+#------------------------------------------------------------------------------#
+
+### Debian Multimedia
+deb http://www.deb-multimedia.org jessie main non-free
+deb http://www.deb-multimedia.org jessie-backports main
+
+### Mozilla
+deb http://mozilla.debian.net/ jessie-backports firefox-esr

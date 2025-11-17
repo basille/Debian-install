@@ -1,0 +1,27 @@
+## ======================================================= ##
+##                                                         ##
+##                          QGIS                           ##
+##                                                         ##
+## ======================================================= ##
+## URL:                                                    ##
+## https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu
+## ======================================================= ##
+## Note on QGIS versions:                                  ##
+## The repository provides the latest release, LTR and     ##
+## dev. Debian Jessie, Stretch and Sid are supported.      ##
+## ======================================================= ##
+## Key                                                     ##
+## $ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key CAEB3DC3BDF7FB45
+## ======================================================= ##
+
+## Latest release
+deb http://qgis.org/debian unstable main
+#deb-src http://qgis.org/debian unstable main
+
+## Long-term release
+#deb http://qgis.org/debian-ltr unstable main
+#deb-src http://qgis.org/debian-ltr unstable main
+
+## Development Version
+#deb http://qgis.org/debian-nightly unstable main
+#deb-src http://qgis.org/debian-nightly unstable main
