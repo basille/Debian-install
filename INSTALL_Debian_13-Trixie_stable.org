@@ -1,14 +1,12 @@
-#+TITLE: Installation de Debian 12
+#+TITLE: Installation de Debian 13
 #+AUTHOR: Mathieu Basille
 
 
-Ceci est un tutoriel complet pour installer Debian en version 12 stable
-(« Bookworm ») sur un portable Dell Precision 3581. La plupart des instructions
-sont génériques pour tout ordinateur, cependant :
+Ceci est une mise-à-jour du tutoriel complet pour installer Debian en version 13
+stable (« Trixie ») sur un portable Dell Precision 3581. La plupart des
+instructions sont génériques pour tout ordinateur, cependant :
 
 - Certaines étapes visent à optimiser la gestion d'un portable avec SSD ;
-- J'utilise un clavier AZERTY qui est ensuite largement personnalisé pour avoir
-  notamment des caractères spéciaux dans différentes langues ;
 - L'installation est orientée pour un travail académique, notamment basé sur
   l'utilisation d'Emacs et R.
 
@@ -85,19 +83,19 @@ propriétaires (=non-free=) ou liés à des paquets propriétaires (=contrib=) :
 
 #+begin_src sh
 sudo tee /etc/apt/sources.list <<EOF
-### Dépôts officiels Debian pour Bookworm
+### Dépôts officiels Debian pour Trixie
 
 # Dépôt principal
-deb http://deb.debian.org/debian bookworm main contrib non-free-firmware  non-free
+deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
 
 # Dépôt des correctifs de sécurité
-deb http://security.debian.org/debian-security bookworm-security main contrib non-free-firmware  non-free
+deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
 
 # Dépôt de mises-à-jour au fil de l'eau (avant la prochaine version intermédiaire)
-deb http://deb.debian.org/debian bookworm-updates main contrib non-free-firmware  non-free
+deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
 
 # Dépôt de rétroportages
-deb http://deb.debian.org/debian bookworm-backports main contrib non-free-firmware  non-free
+deb http://deb.debian.org/debian trixie-backports main contrib non-free non-free-firmware
 EOF
 #+end_src
 
@@ -108,13 +106,13 @@ et QGIS) :
 # R
 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7'
 gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | sudo tee /etc/apt/trusted.gpg.d/cran_debian_key.asc
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/cran_debian_key.asc] https://cloud.r-project.org/bin/linux/debian bookworm-cran40/" | sudo tee -a /etc/apt/sources.list.d/r.list
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/cran_debian_key.asc] https://cloud.r-project.org/bin/linux/debian trixie-cran40/" | sudo tee -a /etc/apt/sources.list.d/r.list
 # QGIS
 sudo curl -O -output-dir /etc/apt/keyrings/ https://download.qgis.org/downloads/qgis-archive-keyring.gpg
 sudo tee -a /etc/apt/sources.list.d/qgis.sources <<EOF
 Types: deb deb-src
 URIs: https://qgis.org/debian
-Suites: bookworm
+Suites: trixie
 Architectures: amd64
 Components: main
 Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg
@@ -135,7 +133,7 @@ sudo apt install \
     `# Utilitaires web` cifs-utils dnsutils gftp gocryptfs gvncviewer network-manager-openconnect-gnome network-manager-openvpn-gnome network-manager-vpnc-gnome openfortivpn network-manager-fortisslvpn-gnome revelation rsync screen unison \
     `# Polices` fonts-agave fonts-arphic-ukai fonts-arphic-uming fonts-arphic-gkai00mp fonts-arphic-gbsn00lp fonts-arphic-bkai00mp fonts-arphic-bsmi00lp fonts-baekmuk fonts-bebas-neue fonts-crosextra-carlito fonts-crosextra-caladea fonts-ecolier-court fonts-ecolier-lignes-court fonts-fantasque-sans fonts-firacode fonts-hack-ttf fonts-inconsolata fonts-jetbrains-mono fonts-liberation2 fonts-linuxlibertine fonts-ubuntu ttf-mscorefonts-installer unifont \
     `# Emacs` emacs hunspell hunspell-en-gb hunspell-en-ca hunspell-en-us hunspell-fr libpoppler-glib-dev ditaa elpa-pdf-tools-server sqlformat \
-    `# Libre Office` libreoffice-style-sifr/bookworm-backports \
+    `# Libre Office` libreoffice-style-sifr/trixie-backports \
     `# R` r-base r-base-core r-base-dev r-recommended littler r-cran-rjags r-cran-rjava r-cran-rodbc r-cran-tkrplot libgdal-dev libproj-dev libgeos-dev libnetcdf-dev libnode-dev libgsl-dev libgmp-dev libmpfr-dev libcurl4-openssl-dev libssl-dev libxml2-dev libcairo2-dev libxt-dev libmagick++-dev libudunits2-dev libharfbuzz-dev libfribidi-dev libgit2-dev tcl-dev tk-dev opencl-headers \
     `# QGIS` qgis \
     `# LaTex/PDF` texlive-full bibtex2html bookletimposer calibre gedit-latex-plugin gummi impressive ispell latex2rtf latexmk lcdf-typetools libtext-pdf-perl mupdf pandoc pdf2djvu pdf2svg pdfarranger pdfchain pdfposter pdfsam pdftk poppler-utils qpdf xournalpp \
@@ -147,7 +145,7 @@ sudo apt install \
     `# Musique` lilypond frescobaldi \
     `# Jeux/loisirs` chromium-bsu dosbox marble stellarium
 sudo apt install \
-    `# Libre Office` -t bookworm-backports libreoffice-style-sifr
+    `# Libre Office` -t trixie-backports libreoffice-style-sifr
 #+end_src
 
 Effectuer une mise-à-jour de nettoyage pour terminer, avec mise-à-jour de
@@ -1012,7 +1010,7 @@ Il faut ensuite penser à le mettre à jour régulièrement.
 
 **** QGIS
 
-On suit les [[https://www.qgis.org/fr/site/forusers/alldownloads.html#debian-ubuntu][instructions officielles pour Debian/Ubuntu]], puis on lance QGIS et
+On suit les [[https://qgis.org/resources/installation-guide/#debian--ubuntu][instructions officielles pour Debian/Ubuntu]], puis on lance QGIS et
 on installer les extensions suivantes (Extensions > Gérer/Installer les
 extensions) :
 
@@ -1132,7 +1130,7 @@ sudo update-grub2
 On suit les instructions détaillées indiquées [[https://lecrabeinfo.net/tutoriels/mettre-a-jour-debian-12-bookworm-vers-debian-13-trixie/][ici]]. Les étapes sont les
 suivantes :
 
-1) **Sauvegarder ses données**
+1) Sauvegarder ses données
 2) Mettre à jour son système Debian 12
 3) Vérifier les paquets non officiels et bloqués
 4) Modifier le fichier sources.list
